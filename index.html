@@ -1,0 +1,65 @@
+<!DOCTYPE html>
+<html>
+<head>
+    <meta charset="utf-8" />
+    <title>Real-Time GPS Tracking</title>
+    <link rel="stylesheet" href="https://unpkg.com/leaflet@1.7.1/dist/leaflet.css" />
+    <style>
+        #map {
+            width: 60%;
+            height: 400px;
+        }
+    </style>
+</head>
+<body>
+    <div id="map"></div>
+    <div id="gps-data">Latitude: <span id="latitude">-</span>, Longitude: <span id="longitude">-</span></div>
+
+    <script src="https://unpkg.com/leaflet@1.7.1/dist/leaflet.js"></script>
+    <script>
+        const map = L.map('map').setView([0, 0], 5); // Initial center coordinates and zoom level
+        L.tileLayer('https://{s}.tile.openstreetmap.org/{z}/{x}/{y}.png').addTo(map);
+
+        function updateMap(lat, lng) {
+            // Pan the map to the new location
+            map.panTo([lat, lng]);
+
+            // Update the marker with the new location
+            if (!marker) {
+                marker = L.marker([lat, lng]).addTo(map);
+            } else {
+                marker.setLatLng([lat, lng]);
+            }
+
+            // Update the displayed GPS data
+            document.getElementById('latitude').textContent = lat.toFixed(6);
+            document.getElementById('longitude').textContent = lng.toFixed(6);
+        }
+
+        let marker;
+
+        // Fetch GPS data from the server every 5 seconds using the Fetch API
+        function fetchGPSData() {
+            fetch('`http:raspberrypiIPaddr:50000/api/get_gps_data`') // Assuming your Flask server is running on the same machine
+                .then(response => {
+                    if (!response.ok) {
+                        throw new Error('Network response was not ok');
+                    }
+                    return response.json();
+                })
+                .then(data => {
+                    const lat = data.latitude;
+                    const lng = data.longitude;
+                    updateMap(lat, lng);
+                })
+                .catch(error => {
+                    console.error('Error fetching GPS data:', error);
+                });
+        }
+
+        // Initial fetch and update
+        fetchGPSData();
+        setInterval(fetchGPSData, 5000); // Fetch and update every 5 seconds
+    </script>
+</body>
+</html>
