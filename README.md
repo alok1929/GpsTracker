@@ -26,5 +26,5 @@ Python:
 
 # PROJECT NOT COMPLETE :
   Tailwindcss shall be implemented in the front to make it smoother, and the whole backend might be redone with ESP32(mini) and a miniature GPS tracker,
-  so that it is more pocket-sized.
+  so that it is more pocket-sized, to be used as a dog tracker, perhaps.
   
