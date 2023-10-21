@@ -1,5 +1,7 @@
 # GpsTracker using Raspberry Pi, Python and HTML
 
+Gives your longitude and latitude location using a gps module and sends it a html page using flask
+
 ## Hardware Requirements:
 - A raspberry pi
 - female to male connectors
@@ -24,7 +26,4 @@ Python:
   ```pip3 install pynmea2```
 - Time to get time
 
-# PROJECT NOT COMPLETE :
-  Tailwindcss shall be implemented in the front to make it smoother, and the whole backend might be redone with ESP32(mini) and a miniature GPS tracker,
-  so that it is more pocket-sized, to be used as a dog tracker, perhaps.
   
